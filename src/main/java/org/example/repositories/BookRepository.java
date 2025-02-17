@@ -14,7 +14,8 @@ import java.util.List;
 public interface BookRepository extends JpaRepository<Book, Integer> {
 
     //+ получение книг, взятых person
-    List<Book> getBooksByPersonId(int personId);
+    @Query("SELECT b FROM Book b WHERE b.owner.id = :personId")
+    List<Book> getBooksByPeopleId(@Param("personId") int personId);
 
     //+ получение данных у кого книга
     @Query("SELECT b.owner FROM Book b WHERE b.id = :bookId")
@@ -26,9 +27,9 @@ public interface BookRepository extends JpaRepository<Book, Integer> {
     void release(@Param("bookId") int id);
 
     // Назначение книги человеку
-     @Modifying
-     @Query("UPDATE Book b SET b.owner.id = :personId WHERE b.id = :bookId")
-     void assignBook(@Param("bookId") int bookId, @Param("personId") int personId);
+    @Modifying
+    @Query("UPDATE Book b SET b.owner = :person WHERE b.id = :bookId")
+    void assignBook(@Param("bookId") int bookId, @Param("person") Person person);
 
 
 }

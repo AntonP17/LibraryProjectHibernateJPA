@@ -14,10 +14,12 @@ import java.util.List;
 public class BookService {
 
     private final BookRepository bookRepository;
+    private final PersonService personService;
 
     @Autowired
-    public BookService(BookRepository bookRepository) {
+    public BookService(BookRepository bookRepository, PersonService personService) {
         this.bookRepository = bookRepository;
+        this.personService = personService;
     }
 
     //+ получение всех книг
@@ -31,13 +33,16 @@ public class BookService {
    }
 
    // назначение книги
-    public void assign(int bookId, int personId){
-        bookRepository.assignBook(bookId, personId);
-    }
+   public void assign(int bookId, int personId) {
+       Person person = personService.showById(personId);
+       if (person != null) {
+           bookRepository.assignBook(bookId, person);
+       }
+   }
 
     //+ получение книг, взятых person
-    public List<Book> getBooksByPersonId(int personId){
-        return bookRepository.getBooksByPersonId(personId);
+    public List<Book> getBooksByPersonId(int peopleId){
+        return bookRepository.getBooksByPeopleId(peopleId);
     }
 
     //+ получение данных у кого книга

@@ -86,10 +86,10 @@ public class SpringConfig implements WebMvcConfigurer {
         return dataSource;
     }
 
-    @Bean // пока оставим для сложных запрсоов мб
-    public JdbcTemplate jdbcTemplate() {
-        return new JdbcTemplate(dateSource());
-    }
+//    @Bean // пока оставим для сложных запрсоов мб
+//    public JdbcTemplate jdbcTemplate() {
+//        return new JdbcTemplate(dateSource());
+//    }
 
     private Properties hibernateProperties() {  // выбираем диалект , который нам нужен, конфигурируем хибернате
         Properties properties = new Properties();
