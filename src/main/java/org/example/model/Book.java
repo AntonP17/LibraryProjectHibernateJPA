@@ -1,25 +1,38 @@
 package org.example.model;
 
+import jakarta.persistence.*;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
 
+@Entity
+@Table(name = "books")
 public class Book {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private int id;
 
     @NotEmpty (message = "Title should not be empty")
     @Size(min = 2, max = 100, message = "Title should be between 2 and 100 characters")
+    @Column(name = "title")
     private String title;
 
     @NotEmpty (message = "Author name should not be empty")
     @Size(min = 2, max = 100, message = "Author name should be between 2 and 100 characters")
+    @Column(name = "author")
     private String author;
 
 
     @Min(value = 0, message = "Year should be greater than 0")
+    @Column(name = "year")
     private int year;
+
+    @ManyToOne
+    @JoinColumn(name = "people_id")
+    private Person owner;
 
     public Book() {
     }
@@ -28,6 +41,14 @@ public class Book {
         this.title = title;
         this.author = author;
         this.year = year;
+    }
+
+    public Person getOwner() {
+        return owner;
+    }
+
+    public void setOwner(Person owner) {
+        this.owner = owner;
     }
 
     public int getId() {
