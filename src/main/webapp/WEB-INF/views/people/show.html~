@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Человек</title>
+</head>
+<body>
+
+<p th:text="${person.lastName + ' ' + person.firstName + ' ' + person.patronymic + ', ' + person.dayOfBirth}">VALUE</p>
+
+<!-- Список книг -->
+<h3>Список книг:</h3>
+<div th:if="${not #lists.isEmpty(books)}"> <!-- Проверка, есть ли книги -->
+    <ul>
+        <li th:each="book : ${books}" th:text="${book.title}"></li> <!-- Вывод каждой книги -->
+    </ul>
+</div>
+<div th:unless="${not #lists.isEmpty(books)}"> <!-- Если книг нет -->
+    <p>Книг нет</p>
+</div>
+
+<br/>
+<hr/>
+
+<!-- вот тут кнопка для редактирования , происходит переход на страницу для редактирования конкретнго человека-->
+<a th:href="@{/people/{id}/edit(id=${person.getId()})}">Редактировать</a>
+
+<form th:method="DELETE" th:action="@{/people/{id}(id=${person.getId()})}"> <!-- происходит переход на страницу удаления конкретнго человека по id-->
+    <input type="submit" value="Удалить"/> <!-- при нажатии этой кнопки происходит перехд по адресу выше и все -->
+
+</form>
+</body>
+</html>

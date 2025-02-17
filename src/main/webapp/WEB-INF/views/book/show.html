@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <title>Книга</title>
+</head>
+<body>
+
+<p th:text="${book.getTitle() + ', ' + book.getAuthor() + ', ' + book.getYear()}">VALUE</p>
+
+<!-- Отображение владельца, если есть -->
+<div th:if="${owner != null}">
+    <h3>Сейчас у:</h3>
+    <p th:text="${owner.lastName} + ' ' + ${owner.firstName} + ' ' + ${owner.patronymic}"></p>
+
+    <!-- Форма для освобождения -->
+    <form th:method="PATCH" th:action="@{/books/{id}/release(id=${book.id})}">
+        <input type="hidden" name="_method" value="patch" />
+        <button type="submit">Освободить книгу</button>
+    </form>
+</div>
+
+<div th:unless="${owner != null}">
+    <p>Книга сейчас свободна. Кому назначить ее?</p>
+    <!-- Форма для назначения -->
+    <form th:method="PATCH" th:action="@{/books/{id}/assign(id=${book.id})}">
+        <input type="hidden" name="_method" value="patch" />
+     Выберите человека   <select name="person_id">
+            <option th:each="person : ${people}"
+                    th:value="${person.id}"
+                    th:text="${person.firstName} + ' ' + ${person.lastName}">
+            </option>
+        </select>
+        <button type="submit">Назначить книгу</button>
+    </form>
+</div>
+
+<br/>
+<hr/>
+<!-- вот тут кнопка для редактирования , происходит переход на страницу для редактирования конкретной книги-->
+<a th:href="@{/books/{id}/edit(id=${book.id})}">Редактировать</a>
+
+<form th:method="DELETE" th:action="@{/books/{id}(id=${book.id})}"> <!-- происходит переход на страницу удаления конкретной книги по id-->
+    <input type="submit" value="Удалить"/>
+</form>
+</body>
+</html>

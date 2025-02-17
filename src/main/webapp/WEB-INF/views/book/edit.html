@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Редактирование книги</title>
+</head>
+<body>
+
+<h1>Редактирование данных книги</h1>
+
+<!-- Форма для обновления данных -->
+<form th:method="PATCH" th:action="@{/books/{id}(id=${book.id})}" th:object="${book}">
+    <!-- Скрытое поле для метода PATCH -->
+    <input type="hidden" name="_method" value="patch" />
+
+    <!-- Поле для названия книги -->
+    <label for="title">Название:</label>
+    <input type="text" th:field="*{title}" id="title" placeholder="Введите название книги"/>
+    <div style="color:red" th:if="${#fields.hasErrors('title')}" th:errors="*{title}">Ошибка в названии</div>
+    <br/>
+
+    <!-- Поле для автора книги -->
+    <label for="author">Автор:</label>
+    <input type="text" th:field="*{author}" id="author" placeholder="Введите автора книги"/>
+    <div style="color:red" th:if="${#fields.hasErrors('author')}" th:errors="*{author}">Ошибка в имени автора</div>
+    <br/>
+
+    <!-- Поле для года издания -->
+    <label for="publicationYear">Год издания:</label>
+    <input type="number" th:field="*{year}" id="publicationYear" placeholder="Введите год издания"/>
+    <div style="color:red" th:if="${#fields.hasErrors('year')}" th:errors="*{year}">Ошибка в годе издания</div>
+    <br/>
+
+    <!-- Кнопка отправки формы -->
+    <input type="submit" value="Обновить"/>
+</form>
+
+</body>
+</html>
