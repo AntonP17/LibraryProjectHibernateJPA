@@ -29,9 +29,9 @@
     <br/>
 
     <!-- Поле для года рождения -->
-    <label for="dayOfBirth">Год рождения:</label>
-    <input type="text" th:field="*{yearOfBirth}" id="dayOfBirth"/>
-    <div style="color:red" th:if="${#fields.hasErrors('dayOfBirth')}" th:errors="*{yearOfBirth}">Ошибка в дате рождения</div>
+    <label for="yearOfBirth">Год рождения:</label>
+    <input type="text" th:field="*{yearOfBirth}" id="yearOfBirth"/>
+    <div style="color:red" th:if="${#fields.hasErrors('yearOfBirth')}" th:errors="*{yearOfBirth}">Ошибка в дате рождения</div>
     <br/>
 
     <!-- Кнопка отправки формы -->
