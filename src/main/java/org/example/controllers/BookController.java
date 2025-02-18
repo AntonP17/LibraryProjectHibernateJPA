@@ -26,9 +26,16 @@ public class BookController {
     }
 
     //+ отображение всех
+    // books?page=1&booksPerPage=10&sortByYear=true  вот пример запроса
+    // страницы и количество отображения на странице , sortByYear если true то год сортируем , если нет то стандарт
     @GetMapping()
-    public String index(Model model) {
-        model.addAttribute("book", bookService.index());
+    public String index(@RequestParam (defaultValue = "0") int page,
+            @RequestParam (defaultValue = "30" ) int booksPerPage,
+            @RequestParam (defaultValue = "false") boolean sortByYear,
+            Model model) {
+
+        List<Book> books = bookService.index(page, booksPerPage, sortByYear);
+        model.addAttribute("books", books);
         return "book/index";
     }
 
