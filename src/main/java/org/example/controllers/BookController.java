@@ -12,6 +12,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/books")
@@ -52,6 +53,19 @@ public class BookController {
         model.addAttribute("people", people);
         return "book/show";
 
+    }
+
+    // РЕШИТЬ ПРОБЛЕМУ NUllPointerException!!!!!!!!!!!!!!!!!!
+    //поиск по префиксу
+    @GetMapping("/search")
+    public String searchByPrefix(@RequestParam(required = false) String prefix, Model model) {
+        if (prefix != null && !prefix.isEmpty()) {
+            List<Book> books = bookService.findByPrefix(prefix);
+            Person owner = bookService.getOwnerByBookId(books.get(0).getId());
+            model.addAttribute("books", books);
+            model.addAttribute("owner", owner);
+        }
+        return "book/search";
     }
 
     // освобождение книги
