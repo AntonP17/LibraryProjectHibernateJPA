@@ -55,12 +55,10 @@ public class BookController {
 
     }
 
-    // РЕШИТЬ ПРОБЛЕМУ NUllPointerException!!!!!!!!!!!!!!!!!!
-    //поиск по префиксу
     @GetMapping("/search")
     public String searchByPrefix(@RequestParam(required = false) String prefix, Model model) {
-        if (prefix != null && !prefix.isEmpty()) {
-            List<Book> books = bookService.findByPrefix(prefix);
+        List<Book> books = bookService.findByPrefix(prefix);
+        if (!books.isEmpty()) {
             Person owner = bookService.getOwnerByBookId(books.get(0).getId());
             model.addAttribute("books", books);
             model.addAttribute("owner", owner);

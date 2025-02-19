@@ -5,6 +5,7 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
+import org.springframework.lang.Nullable;
 
 import java.time.LocalDate;
 
@@ -43,7 +44,7 @@ public class Book {
     private LocalDate startTime;
 
     @Transient
-    private boolean checkReturnDate;
+    private boolean checkReturnDate; // временное поле в БД не надо , а только дял расчетов
 
     public Book() {
     }
