@@ -10,6 +10,8 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -43,6 +45,45 @@ public class BookService {
        return bookRepository.findById(id).orElse(null);
    }
 
+
+    public boolean isOverdue(Person person, List<Book> books) {
+        LocalDate currentDate = LocalDate.now();
+        boolean hasOverdueBooks = false; // Флаг, указывающий, есть ли просроченные книги
+
+        for (Book book : books) {
+            LocalDate startTime = book.getStartTime();
+            LocalDate tenDaysLater = startTime.plusDays(10);
+
+            // Проверяем, просрочена ли книга
+            boolean isOverdue = currentDate.isAfter(tenDaysLater) || currentDate.isEqual(tenDaysLater);
+            book.setCheckReturnDate(isOverdue); // Устанавливаем статус для каждой книги
+
+            // Если хотя бы одна книга просрочена, устанавливаем флаг в true
+            if (isOverdue) {
+                hasOverdueBooks = true;
+            }
+        }
+
+        return hasOverdueBooks; // Возвращаем общий статус для всех книг
+    }
+
+//    // проверка просрочены книги или нет
+//    public boolean isOverdue(Person person, List<Book> books) {
+//
+//        for (Book book : books) {
+//            LocalDate startTime = book.getStartTime();
+//            if (startTime == null) {
+//                continue; // Пропускаем книги без установленной даты начала
+//            }
+//            LocalDate currentDate = LocalDate.now();
+//            LocalDate tenDaysLater = startTime.plusDays(10);
+//            if (currentDate.isAfter(tenDaysLater) || currentDate.isEqual(tenDaysLater)) {
+//                return true;
+//            }
+//        }
+//        return false;
+//    }
+
    // назначение книги
    public void assign(int bookId, int personId) {
 //       Person person = personService.showById(personId);
@@ -56,6 +97,7 @@ public class BookService {
            Book book = bookOptional.get();
            Person person = personOptional.get();
            book.setOwner(person);
+           book.setStartTime(LocalDate.now());
            bookRepository.save(book);
        }
 

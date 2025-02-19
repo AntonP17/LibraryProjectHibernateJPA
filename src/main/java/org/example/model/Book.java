@@ -6,6 +6,8 @@ import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
 
+import java.time.LocalDate;
+
 @Entity
 @Table(name = "books")
 public class Book {
@@ -34,6 +36,15 @@ public class Book {
     @JoinColumn(name = "people_id")
     private Person owner;
 
+//    @Temporal(TemporalType.TIMESTAMP) это до версии постгрес 5 и ниже
+//    @Column(name = "timestamp_column")
+//    private Date timestampColumn;
+    @Column(name = "start_time")
+    private LocalDate startTime;
+
+    @Transient
+    private boolean checkReturnDate;
+
     public Book() {
     }
 
@@ -41,6 +52,22 @@ public class Book {
         this.title = title;
         this.author = author;
         this.year = year;
+    }
+
+    public boolean isCheckReturnDate() {
+        return checkReturnDate;
+    }
+
+    public void setCheckReturnDate(boolean checkReturnDate) {
+        this.checkReturnDate = checkReturnDate;
+    }
+
+    public LocalDate getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(LocalDate startTime) {
+        this.startTime = startTime;
     }
 
     public Person getOwner() {

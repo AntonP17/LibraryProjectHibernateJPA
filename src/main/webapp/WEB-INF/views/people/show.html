@@ -12,7 +12,11 @@
 <h3>Список книг:</h3>
 <div th:if="${not #lists.isEmpty(books)}"> <!-- Проверка, есть ли книги -->
     <ul>
-        <li th:each="book : ${books}" th:text="${book.title}"></li> <!-- Вывод каждой книги -->
+        <li th:each="book : ${books}" th:style="${book.checkReturnDate} ? 'color: red;' : 'color: green;'">
+                <span th:text="${book.title}"></span>
+                <span th:if="${book.checkReturnDate}"> (Просрочена)</span>
+        </li>
+
     </ul>
 </div>
 <div th:unless="${not #lists.isEmpty(books)}"> <!-- Если книг нет -->

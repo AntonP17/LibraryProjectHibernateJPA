@@ -38,8 +38,12 @@ public class PeopleController {
         Person person = personService.showById(id);
         List<Book> books = bookService.getBooksByPersonId(id);
 
+        // Проверяем просроченность книг и устанавливаем статус для каждой книги
+        boolean hasOverdueBooks = bookService.isOverdue(person, books);
+
         model.addAttribute("person", person);
         model.addAttribute("books", books);
+        model.addAttribute("isOverdue", hasOverdueBooks);
 
         return "people/show";
     }
