@@ -5,7 +5,9 @@ import org.example.model.Person;
 import org.example.repositories.BookRepository;
 import org.example.repositories.PersonRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -31,14 +33,19 @@ public class BookService {
         this.personRepository = personRepository;
     }
 
-    //+ получение всех книг
-   public List<Book> index(int page, int booksPerPage, boolean sortByYear) {
-      // return bookRepository.findAll();
-      // Page<Book> bookPage = bookRepository.findAll(PageRequest.of(page, booksPerPage));
-      // return bookPage.getContent();
-        Sort sort = sortByYear ? Sort.by("year") : Sort.unsorted();
-       return bookRepository.findAll(PageRequest.of(page, booksPerPage, sort)).getContent();
-   }
+//    //+ получение всех книг
+//   public List<Book> index(int page, int booksPerPage, boolean sortByYear) {
+//      // return bookRepository.findAll();
+//      // Page<Book> bookPage = bookRepository.findAll(PageRequest.of(page, booksPerPage));
+//      // return bookPage.getContent();
+//        Sort sort = sortByYear ? Sort.by("year") : Sort.unsorted();
+//       return bookRepository.findAll(PageRequest.of(page, booksPerPage, sort)).getContent();
+//   }
+     public Page<Book> index(int page, int booksPerPage, boolean sortByYear) {
+    Sort sort = sortByYear ? Sort.by("year") : Sort.unsorted();
+    Pageable pageable = PageRequest.of(page, booksPerPage, sort);
+    return bookRepository.findAll(pageable);
+     }
 
    // получение конкретной книги
    public Book show(int id){
@@ -140,7 +147,7 @@ public class BookService {
             book.setTitle(updatedBook.getTitle());
             book.setAuthor(updatedBook.getAuthor());
             book.setYear(updatedBook.getYear());
-            bookRepository.save(updatedBook);
+            bookRepository.save(book); // updatedBook
         }
     }
 

@@ -15,10 +15,34 @@
 <br/>
 <hr/>
 
+<!-- Пагинация -->
+<div>
+    <!-- Ссылка на предыдущую страницу -->
+    <a th:href="@{/books(page=${page - 1}, booksPerPage=${booksPerPage}, sortByYear=${sortByYear})}"
+       th:if="${page > 0}">Предыдущая</a>
+
+    <!-- Текущая страница и общее количество страниц -->
+    <span th:text="${page + 1}"></span>/<span th:text="${totalPages}"></span>
+
+    <!-- Ссылка на следующую страницу -->
+    <a th:href="@{/books(page=${page + 1}, booksPerPage=${booksPerPage}, sortByYear=${sortByYear})}"
+       th:if="${page < totalPages - 1}">Следующая</a>
+</div>
+
+<!-- Сортировка -->
+<div>
+    <!-- Кнопка для сортировки по году -->
+    <a th:href="@{/books(page=0, booksPerPage=${booksPerPage}, sortByYear=${!sortByYear})}">
+        <button>Сортировка по году</button>
+    </a>
+</div>
+
 <!-- Ссылка для создания новой книги -->
 <a th:href="@{/books/new}">Добавить книгу</a>
 <p></p>
 <a th:href="@{/books/search}">Поиск книги</a>
+<p></p>
+<a th:href="@{/library}">На главную</a>
 
 </body>
 </html>
